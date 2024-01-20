@@ -175,5 +175,6 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
-### MobileNetV2, etc ###
+### objRecog ###
 *.pth
+.mp4
