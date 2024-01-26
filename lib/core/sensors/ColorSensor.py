@@ -36,3 +36,24 @@ class TCS3200:
 		for _ in range(ncycles):
 			self.gpio.wait_for_edge(self.pins["OUT"], self.gpio.FALLING)
 		return (ncycles/(time.time()-timerStart))
+
+	def get_rgb(ncycles: int, delay: float) -> list:
+		r = read_once([0, 0], ncycles, delay)
+		g = read_once([1, 1], ncycles, delay)
+		b = read_once([0, 1], ncycles, delay)
+		return [r, g, b]
+
+	def color(ncycles: int, delay: float):
+		rgb = self.get_rgb(ncycles, delay)
+		sum = rgb[0]+rgb[1]+rgb[2]
+
+		if rgb[0] > rgb[1] and rgb[0] > rgb[2]:
+			return "RED"
+		elif rgb[1] > rgb[0] and rgb[1] > rgb[2]:
+			return "GREEN"
+		elif rgb[2] > rgb[0] and rgb[2] > rgb[1]:
+			return "BLUE"
+		elif sum >= 3000:
+			return "WHITE"
+		elif sum <= 600:
+			return "BLACK"
