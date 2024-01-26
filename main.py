@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import lib.core.sensors.ColorSensor as ColorSensor
 import lib.core.utils.GeneralUtils as GeneralUtils
+from conf import pines
 
 GPIO.setmode(GPIO.BCM)
 
@@ -8,16 +9,6 @@ cs1_p = {
 	"S2": 17,
 	"S3": 27,
 	"OUT": 22,
-}
-
-pines = {
-	"IN": {
-		"OUT": 22,
-	},
-	"OUT": {
-		"S2": 17,
-		"S3": 27,
-	},
 }
 
 COLORES = {
