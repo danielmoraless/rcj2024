@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import lib.core.sensors.ColorSensor as ColorSensor
+import lib.core.utils.GeneralUtils as GeneralUtils
 
 GPIO.setmode(GPIO.BCM)
 
@@ -7,6 +8,16 @@ cs1_p = {
 	"S2": 17,
 	"S3": 27,
 	"OUT": 22,
+}
+
+pines = {
+	"IN": {
+		"OUT": 22,
+	},
+	"OUT": {
+		"S2": 17,
+		"S3": 27,
+	},
 }
 
 COLORES = {
@@ -18,8 +29,7 @@ COLORES = {
 
 def setup():
 	GPIO.setup(cs1_p["OUT"], GPIO.IN, pull_up_down=GPIO.PUD_UP)
-	GPIO.setup(cs1_p["S2"], GPIO.OUT)
-	GPIO.setup(cs1_p["S3"], GPIO.OUT)
+	GeneralUtils.setup_all(pines)
 
 def loop():
 	sensor_de_color_1 = ColorSensor.TCS3200(GPIO, cs1_p)
