@@ -49,6 +49,9 @@ class TCS3200:
 		r = self.read_once([0, 0])
 		g = self.read_once([1, 1])
 		b = self.read_once([0, 1])
+		# list[0]: red
+		# list[1]: green
+		# list[2]: blue
 		return [r, g, b]
 
 	def color(self):
@@ -62,13 +65,19 @@ class TCS3200:
 		rgb = self.get_rgb()
 		sum = rgb[0]+rgb[1]+rgb[2]
 
-		if rgb[0] > rgb[1] and rgb[0] > rgb[2]:
-			return "RED"
-		elif rgb[1] > rgb[0] and rgb[1] > rgb[2]:
-			return "GREEN"
-		elif rgb[2] > rgb[0] and rgb[2] > rgb[1]:
-			return "BLUE"
-		elif sum >= 3000:
+		# Los condicionales tienen prioridad de reacción. Es decir,
+		# primero se verifican los colores más presentes y que
+		# requieran de una rápida reacción.
+		# El orden es: WHITE, BLACK, GREEN, RED, BLUE
+		if sum >= 3000:
+			# Para que sum sea >= 3000, cada valor de RGB debe ser >= 1000
 			return "WHITE"
 		elif sum <= 600:
+			# Para que sum sea <= 600, cada valor de RGB debe ser <= 200
 			return "BLACK"
+		elif rgb[1] > rgb[0] and rgb[1] > rgb[2]:
+			return "GREEN"
+		elif rgb[0] > rgb[1] and rgb[0] > rgb[2]:
+			return "RED"
+		elif rgb[2] > rgb[0] and rgb[2] > rgb[1]:
+			return "BLUE"
