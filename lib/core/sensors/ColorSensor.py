@@ -9,42 +9,57 @@ class TCS3200:
 		Parámetros:
 			gpio (RPi.GPIO): GPIO de Raspberrypi 4.
 			pins (dict): Un diccionario con los nombres y número de cada pin.
+			ncycles (int): Número de ciclos para calcular la salida del sensor.
+			delay (float): Tiempo de espera para equilibrar el sensor entre
+						   cada lectura.
 	"""
-	def __init__(self, gpio, pins):
+	def __init__(self, gpio, pins: dict, ncycles: int, delay: float):
 		super(TCS3200, self).__init__()
 		self.gpio = gpio
 		self.pins = pins
+		self.ncycles = ncycles
+		self.delay = delay
 
-	def read_once(self, color: list, ncycles: int, delay: float) -> float:
+	def read_once(self, color: list) -> float:
 		"""
 		TCS3200.read_once configura los pines (S2, S3)
 		y calcula la salida del sensor, una sola vez.
 
 			Parámetros:
 				color (list): Configuración para los pines [S2, S3] respectivamente.
-				ncycles (int): Número de ciclos para calcular la salida del sensor.
-				delay (float): Tiempo de espera para equilibrar el sensor entre cada
-							   lectura.
 
 			Retorna:
 				La lectura en Hz con la configuración asignada. (float)
 		"""
-		time.sleep(delay)
+		time.sleep(self.delay)
 		self.gpio.output(self.pins["S2"], color[0])
 		self.gpio.output(self.pins["S3"], color[1])
 		timerStart = time.time()
-		for _ in range(ncycles):
+		for _ in range(self.ncycles):
 			self.gpio.wait_for_edge(self.pins["OUT"], self.gpio.FALLING)
-		return (ncycles/(time.time()-timerStart))
+		return (self.ncycles/(time.time()-timerStart))
 
-	def get_rgb(ncycles: int, delay: float) -> list:
-		r = read_once([0, 0], ncycles, delay)
-		g = read_once([1, 1], ncycles, delay)
-		b = read_once([0, 1], ncycles, delay)
+	def get_rgb(self) -> list:
+		"""
+		get_rgb hace una lectura para cada configuración de color (rojo, azul, verde).
+
+			Retorna:
+				Una lista con el valor de cada lectura en el orden RGB. (list)
+		"""
+		r = self.read_once([0, 0])
+		g = self.read_once([1, 1])
+		b = self.read_once([0, 1])
 		return [r, g, b]
 
-	def color(ncycles: int, delay: float):
-		rgb = self.get_rgb(ncycles, delay)
+	def color(self):
+		"""
+		color obtiene los valores de get_rgb y devuelve el color de con mayor valor.
+
+			Retorna:
+				El nombre del color en inglés y mayúsculas cerradas.
+				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
+		"""
+		rgb = self.get_rgb()
 		sum = rgb[0]+rgb[1]+rgb[2]
 
 		if rgb[0] > rgb[1] and rgb[0] > rgb[2]:
