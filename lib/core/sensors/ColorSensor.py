@@ -57,6 +57,10 @@ class TCS3200:
 		"""
 		color obtiene los valores de get_rgb y devuelve el color de con mayor valor.
 
+			Parámetros:
+				make_new_read (bool): True si la última lectura está desactualizada
+									  y/o no desea utilizarse. False en caso contrario.
+
 			Retorna:
 				El nombre del color en inglés y mayúsculas cerradas.
 				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
