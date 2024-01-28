@@ -23,12 +23,11 @@ def setup():
 	GeneralUtils.setup_all(pines)
 
 def loop():
-	sensor_de_color_1 = ColorSensor.TCS3200(GPIO, cs1_p)
+	sensor_de_color_1 = ColorSensor.TCS3200(GPIO, cs1_p, 10, 0.1)
 	while True:
-		rojo = sensor_de_color_1.read_once(COLORES["ROJO"], 10, 0.3)
-		azul = sensor_de_color_1.read_once(COLORES["AZUL"], 10, 0.3)
-		verde = sensor_de_color_1.read_once(COLORES["VERDE"], 10, 0.3)
-		print(f"R: {rojo}\nG: {verde}\nB: {azul}\n\n")
+		rgb = sensor_de_color_1.get_rgb()
+		color = sensor_de_color_1.color()
+		print(f"\n---\nRESULTADOS DE LECTURA:\n\t* RGB: {rgb}\n\t* COLOR:{color}\n---")
 
 if __name__ == "__main__":
 	setup()
