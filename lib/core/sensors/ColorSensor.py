@@ -79,7 +79,7 @@ class TCS3200:
 		if sum >= 3000:
 			# Para que sum sea >= 3000, cada valor de RGB debe ser >= 1000
 			return "WHITE"
-		elif sum <= 600:
+		elif sum <= 900:
 			# Para que sum sea <= 600, cada valor de RGB debe ser <= 200
 			return "BLACK"
 		elif rgb[1] > rgb[0] and rgb[1] > rgb[2]:
