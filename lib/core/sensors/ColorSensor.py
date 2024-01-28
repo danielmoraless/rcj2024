@@ -19,6 +19,7 @@ class TCS3200:
 		self.pins = pins
 		self.ncycles = ncycles
 		self.delay = delay
+		self.lr_rgb = None
 
 	def read_once(self, color: list) -> float:
 		"""
@@ -46,15 +47,13 @@ class TCS3200:
 			Retorna:
 				Una lista con el valor de cada lectura en el orden RGB. (list)
 		"""
-		r = self.read_once([0, 0])
-		g = self.read_once([1, 1])
-		b = self.read_once([0, 1])
-		# list[0]: red
-		# list[1]: green
-		# list[2]: blue
-		return [r, g, b]
+		rgb = [self.read_once([0, 0]), self.read_once([1, 1]), self.read_once([0, 1])]
+		
+		self.lr_rgb = rgb
 
-	def color(self):
+		return rgb
+
+	def color(self, make_new_read: bool):
 		"""
 		color obtiene los valores de get_rgb y devuelve el color de con mayor valor.
 
@@ -62,7 +61,11 @@ class TCS3200:
 				El nombre del color en inglés y mayúsculas cerradas.
 				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
 		"""
-		rgb = self.get_rgb()
+		if make_new_read:
+			rgb = self.lr_rgb
+		else:
+			rgb = self.get_rgb()
+
 		sum = rgb[0]+rgb[1]+rgb[2]
 
 		# Los condicionales tienen prioridad de reacción. Es decir,
