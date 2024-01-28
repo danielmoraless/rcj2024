@@ -26,7 +26,7 @@ def loop():
 	sensor_de_color_1 = ColorSensor.TCS3200(GPIO, cs1_p, 10, 0.1)
 	while True:
 		rgb = sensor_de_color_1.get_rgb()
-		color = sensor_de_color_1.color()
+		color = sensor_de_color_1.color(False)
 		print(f"\n---\nRESULTADOS DE LECTURA:\n\t* RGB: {rgb}\n\t* COLOR:{color}\n---")
 
 if __name__ == "__main__":
