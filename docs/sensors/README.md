@@ -8,7 +8,7 @@
 | Nombre | Descripción | Tipo |
 |:-------|:-----------:|-----:|
 | `gpio` | se debe pasar `RPi.GPIO` como argumento. | `-` |
-| `pins` | un diccionario con el nombre del pin físico (*key*) y el número de pin (*value*). | `tuple` |
+| `pins` | un diccionario con el nombre del pin físico (*key*) y el número de pin (*value*). | `dict` |
 | `ncycles` | número de ciclos en cada lectura | `int` |
 | `delay` | cantidad de tiempo de receso entre cada lectura | `float` |
 
