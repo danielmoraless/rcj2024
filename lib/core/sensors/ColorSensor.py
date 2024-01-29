@@ -53,7 +53,7 @@ class TCS3200:
 
 		return rgb
 
-	def color(self, make_new_read: bool):
+	def color(self, make_new_read: bool = False):
 		"""
 		color obtiene los valores de get_rgb y devuelve el color de con mayor valor.
 
@@ -66,9 +66,9 @@ class TCS3200:
 				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
 		"""
 		if make_new_read:
-			rgb = self.lr_rgb
-		else:
 			rgb = self.get_rgb()
+		else:
+			rgb = self.lr_rgb
 
 		sum = rgb[0]+rgb[1]+rgb[2]
 
