@@ -21,13 +21,13 @@ class TCS3200:
 		self.delay = delay
 		self.lr_rgb = None
 
-	def read_once(self, color: list) -> float:
+	def read_once(self, color: tuple) -> float:
 		"""
 		TCS3200.read_once configura los pines (S2, S3)
 		y calcula la salida del sensor, una sola vez.
 
 			Parámetros:
-				color (list): Configuración para los pines [S2, S3] respectivamente.
+				color (tuple): Configuración para los pines [S2, S3] respectivamente.
 
 			Retorna:
 				La lectura en Hz con la configuración asignada. (float)
@@ -40,14 +40,14 @@ class TCS3200:
 			self.gpio.wait_for_edge(self.pins["OUT"], self.gpio.FALLING)
 		return (self.ncycles/(time.time()-timerStart))
 
-	def get_rgb(self) -> list:
+	def get_rgb(self) -> tuple:
 		"""
 		get_rgb hace una lectura para cada configuración de color (rojo, azul, verde).
 
 			Retorna:
-				Una lista con el valor de cada lectura en el orden RGB. (list)
+				Una tuple con el valor de cada lectura en el orden RGB. (tuple)
 		"""
-		rgb = [self.read_once([0, 0]), self.read_once([1, 1]), self.read_once([0, 1])]
+		rgb = (self.read_once((0, 0)), self.read_once((1, 1)), self.read_once((0, 1)))
 		
 		self.lr_rgb = rgb
 
