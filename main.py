@@ -11,13 +11,6 @@ cs1_p = {
 	"OUT": 22,
 }
 
-COLORES = {
-	"ROJO": [0, 0],
-	"AZUL": [0, 1],
-	"VERDE": [1, 1],
-	"SF": [1, 0],
-}
-
 def setup():
 	GPIO.setup(cs1_p["OUT"], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 	GeneralUtils.setup_all(pines)
