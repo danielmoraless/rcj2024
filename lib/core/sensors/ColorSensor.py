@@ -65,7 +65,7 @@ class TCS3200:
 				El nombre del color en inglés y mayúsculas cerradas.
 				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
 		"""
-		if make_new_read:
+		if make_new_read or not self.lr_rgb:
 			rgb = self.get_rgb()
 		else:
 			rgb = self.lr_rgb
