@@ -26,24 +26,30 @@ def color_sensor_data():
 			json_data[color][ciclos] = {}
 
 			for delay in (0.01, 0.1):
-				sensor = ColorSensor.TCS3200(GPIO, conf.colorSensor1, ciclos, delay)
+				for lectura in range(0, 31):
+					sensor = ColorSensor.TCS3200(GPIO, conf.colorSensor1, ciclos, delay)
 
-				rgb_time_start = time.time()
-				lectura_rgb = sensor.get_rgb()
-				rgb_time_end = time.time()
-				lectura_color = sensor.color()
-				color_time_end = time.time()
+					rgb_time_start = time.time()
+					lectura_rgb = sensor.get_rgb()
+					rgb_time_end = time.time()
+					lectura_color = sensor.color()
+					color_time_end = time.time()
 
-				json_data[color][ciclos][delay] = {
-					"get_rgb": {
-						"valor": lectura_rgb,
-						"tiempo": rgb_time_end-rgb_time_start,
-					},
-					"color": {
-						"valor": lectura_color,
-						"tiempo": color_time_end-rgb_time_end,
-					},
-				}
+					json_data[color][ciclos][delay][lectura] = {
+						"get_rgb": {
+							"valor": lectura_rgb,
+							"tiempo": rgb_time_end-rgb_time_start,
+						},
+						"color": {
+							"valor": lectura_color,
+							"tiempo": color_time_end-rgb_time_end,
+						},
+					}
 
 	with open(path.join("rdata", "color_sensor_data.json"), "w") as data_file:
 		data_file.write(json.dumps(json_data))
+
+try:
+	color_sensor_data()
+finally:
+	GPIO.cleanup()
