@@ -23,7 +23,7 @@ def color_sensor_data():
 		json_data[color] = {}
 
 		for ciclos in range(10, 60, 10):
-		json_data[color][ciclos] = {}
+			json_data[color][ciclos] = {}
 
 			for delay in (0.01, 0.1):
 				sensor = ColorSensor.TCS3200(GPIO, conf.colorSensor1, ciclos, delay)
