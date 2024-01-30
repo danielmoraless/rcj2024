@@ -40,7 +40,7 @@ def color_sensor_data():
 					lectura_color = sensor.color()
 					color_time_end = time.time()
 
-					json_data[color][ciclos][delay][lectura] = {
+					json_data[color][ciclos]["{}s".format(delay)][lectura] = {
 						"get_rgb": {
 							"valor": lectura_rgb,
 							"tiempo": rgb_time_end-rgb_time_start,
