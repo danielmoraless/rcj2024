@@ -4,6 +4,7 @@ import time
 import json
 
 import lib.core.sensors.ColorSensor as ColorSensor
+import lib.core.utils.GeneralUtils as GeneralUtils
 import conf
 
 GPIO.setmode(GPIO.BCM)
