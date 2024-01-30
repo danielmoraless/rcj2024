@@ -19,6 +19,10 @@ def color_sensor_data():
 	json_data = {}
 
 	for color in ("ROJO", "VERDE", "AZUL", "NEGRO", "BLANCO"):
+		# setup
+		GeneralUtils.setup_all(conf.pines)
+
+		# "loop"
 		input(f"¿Color {color} listo?")
 		json_data[color] = {}
 
