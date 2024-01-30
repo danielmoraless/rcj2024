@@ -29,11 +29,14 @@ def color_sensor_data():
 
 		for ciclos in range(10, 60, 10):
 			json_data[color][ciclos] = {}
+			print(f"[+] Entrando con {ciclos} ciclos...")
 
 			for delay in (0.01, 0.1):
 				json_data[color][ciclos][delay] = {}
+				print(f"\t[+] Entrando con {delay} segundos...")
 
 				for lectura in range(0, 31):
+					print(f"\t\t[+] Ejecutando lectura #{lectura}...")
 					sensor = ColorSensor.TCS3200(GPIO, conf.colorSensor1, ciclos, delay)
 
 					rgb_time_start = time.time()
