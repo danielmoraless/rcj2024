@@ -57,10 +57,11 @@ def color_sensor_data():
 						},
 					}
 
-	p = path.join("rdata", "color_sensor_data.json")
-	os.makedirs(p, exist_ok=True)
+	print("[+] Guardando...")
+	d = "rdata"
+	os.makedirs(d, exist_ok=True)
 
-	with open(p, "w") as data_file:
+	with open(path.join(d, "color_sensor_data.json"), "w") as data_file:
 		data_file.write(json.dumps(json_data))
 
 try:
