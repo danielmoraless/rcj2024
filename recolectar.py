@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import os.path as path
 import time
 import json
+import os
 
 import lib.core.sensors.ColorSensor as ColorSensor
 import lib.core.utils.GeneralUtils as GeneralUtils
@@ -56,7 +57,10 @@ def color_sensor_data():
 						},
 					}
 
-	with open(path.join("rdata", "color_sensor_data.json"), "w") as data_file:
+	p = path.join("rdata", "color_sensor_data.json")
+	os.makedirs(p, exist_ok=True)
+
+	with open(p, "w") as data_file:
 		data_file.write(json.dumps(json_data))
 
 try:
