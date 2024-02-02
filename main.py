@@ -11,7 +11,7 @@ controlador = Motors.L298N(conf.l298n_p, 12500)
 controlador.start(0)
 
 def loop():
-	velocidad = int(input("Ingrese la velocidad: "))
+	velocidad = float(input("Ingrese la velocidad: "))
 	controlador.forward(velocidad)
 
 if __name__ == "__main__":
