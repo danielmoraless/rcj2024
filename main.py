@@ -3,6 +3,7 @@ import lib.core.utils.GeneralUtils as GeneralUtils
 import lib.core.actuators.Motors as Motors
 import lib.core.sensors.ColorSensor as ColorSensor
 import conf
+import time
 
 GPIO.setmode(GPIO.BCM)
 
@@ -13,6 +14,7 @@ controlador.start(0)
 sensor_colores = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.1)
 
 def loop():
+	time.sleep(1)
 	color = sensor_colores.color()
 	print(color)
 	if color == "RED":
