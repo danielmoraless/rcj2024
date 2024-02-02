@@ -43,7 +43,7 @@ Los segmentos y sus tareas son los siguientes:
 > [!NOTE]
 > Los segmentos pueden estar incompletos o erróneos. Todavía están en planificación.
 
-### Sistema Operativo
+### Capa alta: Sistema Operativo
 
 Se supone que aquí los módulos de la capa media se mezclan lógicamente.
 
