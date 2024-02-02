@@ -5,8 +5,7 @@ import conf
 
 GPIO.setmode(GPIO.BCM)
 
-def setup():
-	GeneralUtils.setup_all(conf.pines)
+GeneralUtils.setup_all(conf.pines)
 
 controlador = Motors.L298N(conf.l298n_p, 12500)
 controlador.start(0)
@@ -21,7 +20,6 @@ def loop():
 
 if __name__ == "__main__":
 	try:
-		setup()
 		while True:
 			loop()
 	finally:
