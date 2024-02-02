@@ -13,10 +13,6 @@ controlador.start(0)
 def loop():
 	velocidad = int(input("Ingrese la velocidad: "))
 	controlador.forward(velocidad)
-	if input("¿Desea seguir? ") == "n":
-		controlador.stop()
-		GPIO.cleanup()
-		exit(0)
 
 if __name__ == "__main__":
 	try:
