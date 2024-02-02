@@ -10,10 +10,12 @@ GeneralUtils.setup_all(conf.pines)
 
 controlador = Motors.L298N(conf.l298n_p, 12500)
 controlador.start(0)
-sensor_colores = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.01)
+sensor_colores = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.1)
 
 def loop():
-	if sensor_colores.color() == "RED":
+	color = sensor_colores.color()
+	print(color)
+	if color == "RED":
 		controlador.forward(90)
 
 if __name__ == "__main__":
