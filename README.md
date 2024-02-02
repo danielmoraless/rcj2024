@@ -69,7 +69,9 @@ Se supone que aquí los módulos de la capa media se mezclan lógicamente.
 ### Controlador L298N
 | L298N | RPi 4 (BOARD) |
 |:-----:|:-------------:|
+| ENA | 33 (GPIO 13, PWM1) |
 | IN1 | 8 (GPIO 14) |
 | IN2 | 10 (GPIO 15) |
+| ENB | 32 (GPIO 12, PWM0) |
 | IN3 | 12 (GPIO 18) |
 | IN4 | 16 (GPIO 23) |
