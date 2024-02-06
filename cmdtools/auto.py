@@ -1,5 +1,6 @@
 import argparse
 import socket
+import os
 from watcher import watch
 
 parser = argparse.ArgumentParser()
