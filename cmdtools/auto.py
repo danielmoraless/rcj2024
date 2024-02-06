@@ -26,7 +26,7 @@ def server():
 	print(f"[+] Nueva conexión de {c_addr[0]}:{c_addr[1]}")
 
 	while True:
-		req = c_socket.recv(262144)
+		req = c_socket.recv(5242880)
 		req = req.decode("utf-8")
 
 		if req.lower() == "close":
