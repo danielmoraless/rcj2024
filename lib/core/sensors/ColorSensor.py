@@ -19,7 +19,6 @@ class TCS3200:
 		self.pins = pins
 		self.ncycles = ncycles
 		self.delay = delay
-		self.lr_rgb = None
 
 	def read_once(self, color: tuple) -> float:
 		"""
@@ -48,12 +47,10 @@ class TCS3200:
 				Una tuple con el valor de cada lectura en el orden RGB. (tuple)
 		"""
 		rgb = (self.read_once((0, 0)), self.read_once((1, 1)), self.read_once((0, 1)))
-		
-		self.lr_rgb = rgb
 
 		return rgb
 
-	def color(self, make_new_read: bool = False):
+	def color(self):
 		"""
 		color obtiene los valores de get_rgb y devuelve el color de con mayor valor.
 
@@ -65,10 +62,7 @@ class TCS3200:
 				El nombre del color en inglés y mayúsculas cerradas.
 				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
 		"""
-		if make_new_read or not self.lr_rgb:
-			rgb = self.get_rgb()
-		else:
-			rgb = self.lr_rgb
+		rgb = self.get_rgb()
 
 		sum = rgb[0]+rgb[1]+rgb[2]
 
