@@ -21,6 +21,10 @@ def loop():
 		controlador.forward(90)
 	if color == "RED":
 		controlador.backward(90)
+	
+	if input("Desea continuar? ") == "n":
+		GPIO.cleanup()
+		exit(0)
 
 if __name__ == "__main__":
 	try:
