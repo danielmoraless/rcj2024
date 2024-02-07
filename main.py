@@ -14,7 +14,6 @@ controlador.start(0)
 sensor_colores = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.1)
 
 def loop():
-	sensor_colores.get_rgb()
 	color = sensor_colores.color()
 	if color == "WHITE":
 		controlador.forward(90)
