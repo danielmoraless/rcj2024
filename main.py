@@ -3,7 +3,7 @@ import lib.core.utils.GeneralUtils as GeneralUtils
 import lib.core.actuators.Motors as Motors
 import lib.core.sensors.ColorSensor as ColorSensor
 import conf
-import keyboard
+import sys
 
 GPIO.setmode(GPIO.BCM)
 
@@ -20,17 +20,13 @@ def loop():
 	if color == "RED":
 		controlador.backward(90)
 
-exit_v = False
-
-def salir():
-	exit_v = True
-
 if __name__ == "__main__":
 	try:
-		keyboard.add_hotkey('ctrl+p', salir, suppress=True, trigger_on_release=True)
-		while not exit_v:
+		while True:
+			for linea in sys.stdin:
+				if 's' == linea.strip():
+					exit(0)
 			loop()
-		keyboard.remove_hotkey('ctrl+p')
 	except KeyboardInterrupt:
 		exit(0)
 	finally:

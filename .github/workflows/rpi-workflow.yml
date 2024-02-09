@@ -27,4 +27,4 @@ jobs:
     - name: Execute main
       shell: bash {0}
       run: |
-        echo $USERPWD | sudo -S python3 main.py
+        python3 main.py
