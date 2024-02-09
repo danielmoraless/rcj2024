@@ -24,5 +24,8 @@ if __name__ == "__main__":
 	try:
 		while True:
 			loop()
+	except KeyboardInterrupt:
+		GPIO.cleanup()
+		exit(0)
 	finally:
 		GPIO.cleanup()
