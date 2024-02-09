@@ -3,7 +3,7 @@ import lib.core.utils.GeneralUtils as GeneralUtils
 import lib.core.actuators.Motors as Motors
 import lib.core.sensors.ColorSensor as ColorSensor
 import conf
-import time
+import keyboard
 
 GPIO.setmode(GPIO.BCM)
 
@@ -22,10 +22,10 @@ def loop():
 
 if __name__ == "__main__":
 	try:
+		keyboard.add_hotkey('s', lambda: exit(0))
 		while True:
 			loop()
 	except KeyboardInterrupt:
-		GPIO.cleanup()
 		exit(0)
 	finally:
 		GPIO.cleanup()
