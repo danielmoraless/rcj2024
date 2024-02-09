@@ -20,11 +20,17 @@ def loop():
 	if color == "RED":
 		controlador.backward(90)
 
+salir = False
+
+def exit():
+	salir = True
+
 if __name__ == "__main__":
 	try:
-		keyboard.add_hotkey('s', lambda: exit(0))
-		while True:
+		keyboard.add_hotkey('ctrl+p', exit, suppress=True, trigger_on_release=True)
+		while not salir:
 			loop()
+		keyboard.remove_hotkey('ctrl+p')
 	except KeyboardInterrupt:
 		exit(0)
 	finally:
