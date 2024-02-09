@@ -14,17 +14,11 @@ controlador.start(0)
 sensor_colores = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.1)
 
 def loop():
-	time.sleep(2)
 	color = sensor_colores.color()
-	print(color)
 	if color == "WHITE":
 		controlador.forward(90)
 	if color == "RED":
 		controlador.backward(90)
-	
-	if input("Desea continuar? ") == "n":
-		GPIO.cleanup()
-		exit(0)
 
 if __name__ == "__main__":
 	try:
