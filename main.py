@@ -3,7 +3,6 @@ import lib.core.utils.GeneralUtils as GeneralUtils
 import lib.core.actuators.Motors as Motors
 import lib.core.sensors.ColorSensor as ColorSensor
 import conf
-import sys
 
 GPIO.setmode(GPIO.BCM)
 
@@ -23,9 +22,6 @@ def loop():
 if __name__ == "__main__":
 	try:
 		while True:
-			for linea in sys.stdin:
-				if 's' == linea.strip():
-					exit(0)
 			loop()
 	except KeyboardInterrupt:
 		exit(0)
