@@ -2,8 +2,12 @@ name: RPi workflow
 
 on:
   push:
+    paths:
+      - '**.py'
     branches: [ "trunk" ]
   pull_request:
+    paths:
+      - '**.py'
     branches: [ "trunk" ]
 
 permissions:
