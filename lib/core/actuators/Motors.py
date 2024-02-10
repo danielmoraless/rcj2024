@@ -33,3 +33,11 @@ class L298N:
   def backward(self, vel: float):
     self.cambiar_estado_izquierdo((1, 0), vel)
     self.cambiar_estado_derecho((1, 0), vel)
+  
+  def rotar_izquierda(self, vel: float):
+    self.cambiar_estado_derecho((0, 1), vel)
+    self.cambiar_estado_izquierdo((1, 0), vel)
+
+  def rotar_derecha(self, vel):
+    self.cambiar_estado_izquierdo((0, 1), vel)
+    self.cambiar_estado_derecho((1, 0), vel)
