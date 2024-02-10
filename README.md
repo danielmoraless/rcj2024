@@ -1,8 +1,8 @@
-<div style="text-align: center;">
-  <h1>RoboCupJunior 2024 (Crusaders Team)</h1>
-  <img src="https://img.shields.io/github/actions/workflow/status/danielmoraless/rcj2024/rpi-workflow.yml
-  " alt="RPi workflow badge"></img>
-</div>
+# RoboCupJunior 2024 (Crusaders Team)
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/danielmoraless/rcj2024/rpi-workflow.yml)
+
+---
 
 ## Arquitectura de software
 
