@@ -13,12 +13,13 @@ class TCS3200:
 			delay (float): Tiempo de espera para equilibrar el sensor entre
 						   cada lectura.
 	"""
-	def __init__(self, gpio, pins: dict, ncycles: int, delay: float):
+	def __init__(self, gpio, pins: dict, ncycles: int, delay: float, debug: bool):
 		super(TCS3200, self).__init__()
 		self.gpio = gpio
 		self.pins = pins
 		self.ncycles = ncycles
 		self.delay = delay
+		self.debug = debug
 
 	def read_once(self, color: tuple) -> float:
 		"""
@@ -62,6 +63,7 @@ class TCS3200:
 				El nombre del color en inglés y mayúsculas cerradas.
 				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
 		"""
+		detected_color = None
 		rgb = self.get_rgb()
 
 		sum = rgb[0]+rgb[1]+rgb[2]
@@ -72,13 +74,18 @@ class TCS3200:
 		# El orden es: WHITE, BLACK, GREEN, RED, BLUE
 		if sum >= 3000:
 			# Para que sum sea >= 3000, cada valor de RGB debe ser >= 1000
-			return "WHITE"
+			detected_color = "WHITE"
 		elif sum <= 900:
 			# Para que sum sea <= 900, cada valor de RGB debe ser <= 300
-			return "BLACK"
+			detected_color = "BLACK"
 		elif rgb[1] > rgb[0] and rgb[1] > rgb[2]:
-			return "GREEN"
+			detected_color = "GREEN"
 		elif rgb[0] > rgb[1] and rgb[0] > rgb[2]:
-			return "RED"
+			detected_color = "RED"
 		elif rgb[2] > rgb[0] and rgb[2] > rgb[1]:
-			return "BLUE"
+			detected_color = "BLUE"
+
+		if self.debug:
+			print(f"DEBUG (TCS3200.color): {(detected_color, rgb)}")
+		
+		return detected_color
