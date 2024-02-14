@@ -10,7 +10,7 @@ GeneralUtils.setup_all(conf.pines)
 
 controlador = Motors.L298N(conf.l298n_p, 12500)
 controlador.start(0)
-sensor_colores = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.1)
+sensor_colores = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.1, debug=True)
 
 stopml = False
 
