@@ -3,10 +3,16 @@ import os.path as path
 import time
 import json
 import os
+import argparse
 
 import lib.core.sensors.ColorSensor as ColorSensor
 import lib.core.utils.GeneralUtils as GeneralUtils
 import conf
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--type", dest="type", default="calibrate", help="Tipo de recolección de datos")
+
+args = parser.parse_args()
 
 GPIO.setmode(GPIO.BCM)
 
@@ -64,7 +70,45 @@ def color_sensor_data():
 	with open(path.join(d, "color_sensor_data.json"), "w") as data_file:
 		data_file.write(json.dumps(json_data))
 
+def calibrate_data():
+	input("Presione Enter para iniciar")
+	GeneralUtils.setup_all(conf.pines)
+	sensor = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.01)
+	resultados = {}
+
+	while True:
+		lecturas = []
+		print("[+] Realizando lecturas...")
+		time_start = time.time()
+		for _ in range(97):
+			lecturas.append(sum(sensor.get_rgb()))
+		time_end = time.time()
+		
+		print(f"[+] 97 lecturas realizadas en {time_end-time_start} segundos")
+		color = str(input("[?] Indique el color leido: "))
+		resultados[color] = {
+			"min": min(lecturas),
+			"max": max(lecturas),
+		}
+		if input("[?] Desea culminar? (y/n): "):
+			break
+	
+	print("[+] Guardado resultados...")
+	d = "rdata"
+	os.makedirs(d, exist_ok=True)
+
+	with open(path.join(d, "calibrate_data.json"), "w") as data_file:
+		data_file.write(json.dumps(resultados))
+	
+	print("[+] ¡Datos de calibración recolectados!")
+
 try:
-	color_sensor_data()
+	match args.type:
+		case "all":
+			color_sensor_data()
+		case "calibrate":
+			calibrate_data()
+		case _:
+			print("Tipo de recolección no reconocido.")
 finally:
 	GPIO.cleanup()
