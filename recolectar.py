@@ -90,7 +90,7 @@ def calibrate_data():
 			"min": min(lecturas),
 			"max": max(lecturas),
 		}
-		if input("[?] Desea culminar? (y/n): "):
+		if input("[?] Desea culminar? (y/n): ") == "n":
 			break
 	
 	print("[+] Guardado resultados...")
