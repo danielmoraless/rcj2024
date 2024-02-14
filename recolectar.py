@@ -90,10 +90,10 @@ def calibrate_data():
 			"min": min(lecturas),
 			"max": max(lecturas),
 		}
-		if input("[?] Desea culminar? (y/n): ") == "n":
+		if input("[?] ¿Desea continuar? (y/n): ") == "n":
 			break
 	
-	print("[+] Guardado resultados...")
+	print("[+] Guardando resultados...")
 	d = "rdata"
 	os.makedirs(d, exist_ok=True)
 
