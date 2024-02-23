@@ -31,14 +31,16 @@ while True:
 		min_list.append(min(lecturas))
 		max_list.append(max(lecturas))
 
+	minimo_promedio = sum(min_list)/ciclos
+	maximo_promedio = sum(max_list)/ciclos
 	resultados[color] = {
-		"min": sum(min_list)/ciclos, # minimo promedio
-		"max": sum(max_list)/ciclos, # máximo promedio
+		"min": minimo_promedio,
+		"max": maximo_promedio,
 	}
 
 	print(f"[+] {nlecturas*ciclos} lecturas realizadas para \"{color}\":")
-	print(f"\t[INFO] Mínimo: {resultados[color]["min"]}")
-	print(f"\t[INFO] Máximo: {resultados[color]["max"]}")
+	print(f"\t[INFO] Mínimo: {minimo_promedio}")
+	print(f"\t[INFO] Máximo: {maximo_promedio}")
 
 	if input("[?] ¿Desea continuar? (y/n): ") == "n":
 		break
