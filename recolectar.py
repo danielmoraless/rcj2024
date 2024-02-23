@@ -1,5 +1,6 @@
 import RPi.GPIO as GPIO
 import os
+import json
 from lib.core.sensors.ColorSensor import TCS3200
 from lib.core.utils.GeneralUtils import setup_all
 import conf
