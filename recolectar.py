@@ -80,11 +80,13 @@ def calibrate_data():
 		lecturas = []
 		print("[+] Realizando lecturas...")
 		time_start = time.time()
-		for _ in range(97):
+		for _ in range(250):
 			lecturas.append(sum(sensor.get_rgb()))
 		time_end = time.time()
+
+		lecturas = lecturas[1:]
 		
-		print(f"[+] 97 lecturas realizadas en {time_end-time_start} segundos")
+		print(f"[+] 250 lecturas realizadas en {time_end-time_start} segundos")
 		color = str(input("[?] Indique el color leido: "))
 		resultados[color] = {
 			"min": min(lecturas),
