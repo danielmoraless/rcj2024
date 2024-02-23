@@ -1,116 +1,52 @@
 import RPi.GPIO as GPIO
-import os.path as path
-import time
-import json
 import os
-import argparse
-
-import lib.core.sensors.ColorSensor as ColorSensor
-import lib.core.utils.GeneralUtils as GeneralUtils
+from lib.core.sensors.ColorSensor import TCS3200
+from lib.core.utils.GeneralUtils import setup_all
 import conf
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--type", dest="type", default="calibrate", help="Tipo de recolección de datos")
-
-args = parser.parse_args()
-
 GPIO.setmode(GPIO.BCM)
+setup_all(conf.pines)
 
-def color_sensor_data():
-	"""
-	Se desean recolectar la lecturas para analizar el comportamiento del sensor.
-	Las variables son:
-		- Colores: ROJO, VERDE, AZUL, NEGRO, BLANCO.
-		- Número de ciclos: [10, 20, 30, 40, 50]
-		- Delay de cada lectura: [0.01, 0.1]
-	"""
-	json_data = {}
+sensor = TCS3200(GPIO, conf.colorSensor1, 10, 0.1)
 
-	for color in ("ROJO", "VERDE", "AZUL", "NEGRO", "BLANCO"):
-		# setup
-		GeneralUtils.setup_all(conf.pines)
+ciclos = int(input("[?] Número de ciclos de calibración: "))
+nlecturas = int(input("[?] Número de lecturas en cada ciclo: "))
+resultados = {}
 
-		# "loop"
-		input(f"¿Color {color} listo?")
-		json_data[color] = {}
+while True:
+	input("[...] Presione Enter para comenzar")
+	color = str(input("[?] Escriba el color a calibrar: "))
+	print(f"[+] Leyendo para {color}...")
 
-		for ciclos in range(10, 60, 10):
-			json_data[color][ciclos] = {}
-			print(f"[+] Entrando con {ciclos} ciclos...")
+	min_list = []
+	max_list = []
 
-			for delay in (0.01, 0.1):
-				json_data[color][ciclos][delay] = {}
-				print(f"\t[+] Entrando con {delay} segundos...")
-
-				for lectura in range(0, 31):
-					print(f"\t\t[+] Ejecutando lectura #{lectura}...")
-					sensor = ColorSensor.TCS3200(GPIO, conf.colorSensor1, ciclos, delay)
-
-					rgb_time_start = time.time()
-					lectura_rgb = sensor.get_rgb()
-					rgb_time_end = time.time()
-					lectura_color = sensor.color()
-					color_time_end = time.time()
-
-					json_data[color][ciclos][delay][lectura] = {
-						"get_rgb": {
-							"valor": lectura_rgb,
-							"tiempo": rgb_time_end-rgb_time_start,
-						},
-						"color": {
-							"valor": lectura_color,
-							"tiempo": color_time_end-rgb_time_end,
-						},
-					}
-
-	print("[+] Guardando...")
-	d = "rdata"
-	os.makedirs(d, exist_ok=True)
-
-	with open(path.join(d, "color_sensor_data.json"), "w") as data_file:
-		data_file.write(json.dumps(json_data))
-
-def calibrate_data():
-	input("Presione Enter para iniciar")
-	GeneralUtils.setup_all(conf.pines)
-	sensor = ColorSensor.TCS3200(GPIO, conf.colorSensor1, 10, 0.01)
-	resultados = {}
-
-	while True:
+	for i in range(ciclos):
 		lecturas = []
-		print("[+] Realizando lecturas...")
-		time_start = time.time()
-		for _ in range(250):
+
+		for j in range(nlecturas):
 			lecturas.append(sum(sensor.get_rgb()))
-		time_end = time.time()
 
-		lecturas = lecturas[1:]
-		
-		print(f"[+] 250 lecturas realizadas en {time_end-time_start} segundos")
-		color = str(input("[?] Indique el color leido: "))
-		resultados[color] = {
-			"min": min(lecturas),
-			"max": max(lecturas),
-		}
-		if input("[?] ¿Desea continuar? (y/n): ") == "n":
-			break
-	
-	print("[+] Guardando resultados...")
-	d = "rdata"
-	os.makedirs(d, exist_ok=True)
+		lecturas = lecturas[1:] # generalmente, la primera lectura es incoherente. Omitimos
+		min_list.append(min(lecturas))
+		max_list.append(max(lecturas))
 
-	with open(path.join(d, "calibrate_data.json"), "w") as data_file:
-		data_file.write(json.dumps(resultados))
-	
-	print("[+] ¡Datos de calibración recolectados!")
+	resultados[color] = {
+		"min": sum(min_list)/ciclos, # minimo promedio
+		"max": sum(max_list)/ciclos, # máximo promedio
+	}
 
-try:
-	match args.type:
-		case "all":
-			color_sensor_data()
-		case "calibrate":
-			calibrate_data()
-		case _:
-			print("Tipo de recolección no reconocido.")
-finally:
-	GPIO.cleanup()
+	print(f"[+] {nlecturas*ciclos} lecturas realizadas para \"{color}\":")
+	print(f"\t[INFO] Mínimo: {resultados[color]["min"]}")
+	print(f"\t[INFO] Máximo: {resultados[color]["max"]}")
+
+	if input("[?] ¿Desea continuar? (y/n): ") == "n":
+		break
+
+data_dir = "florence_data"
+os.makedirs(data_dir, exist_ok=True)
+
+with open(os.path.join(data_dir, "calibrate.json"), "w") as data_file:
+	data_file.write(json.dumps(resultados))
+
+print(f"[+] ¡Datos guardados en {os.getcwd()}/{data_dir}/calibrate.json!")
