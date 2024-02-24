@@ -8,14 +8,15 @@ class TCS3200:
 	sencilla.
 
 		Parámetros:
-			calibracion (dict): Valores de cada color.
+			ref (dict): Valores de referencia para cada color.
 			pins (dict): Un diccionario con los nombres y número de cada pin.
 			ncycles (int): Número de ciclos para calcular la salida del sensor.
 			delay (float): Tiempo de espera para equilibrar el sensor entre
 						   cada lectura.
 	"""
-	def __init__(self, calibracion: dict, pins: dict, ncycles: int, delay: float, debug: bool = False):
+	def __init__(self, ref: dict, pins: dict, ncycles: int, delay: float, debug: bool = False):
 		super(TCS3200, self).__init__()
+		self.ref = ref
 		self.pins = pins
 		self.ncycles = ncycles
 		self.delay = delay
@@ -52,38 +53,12 @@ class TCS3200:
 		return rgb
 
 	def color(self):
-		"""
-		color obtiene los valores de get_rgb y devuelve el color de con mayor valor.
-
-			Parámetros:
-				make_new_read (bool): True si la última lectura está desactualizada
-									  y/o no desea utilizarse. False en caso contrario.
-
-			Retorna:
-				El nombre del color en inglés y mayúsculas cerradas.
-				Colores posibles: RED, GREEN, BLUE, WHITE, BLACK. (str)
-		"""
-		detected_color = None
 		rgb = self.get_rgb()
+		suma = sum(rgb)
 
-		sum = rgb[0]+rgb[1]+rgb[2]
-
-		# Los condicionales tienen prioridad de reacción. Es decir,
-		# primero se verifican los colores más presentes y que
-		# requieran de una rápida reacción.
-		# El orden es: WHITE, BLACK, GREEN, RED, BLUE
-		if sum >= 3000:
-			# Para que sum sea >= 3000, cada valor de RGB debe ser >= 1000
-			detected_color = "WHITE"
-		elif sum <= 900:
-			# Para que sum sea <= 900, cada valor de RGB debe ser <= 300
-			detected_color = "BLACK"
-		elif rgb[1] > rgb[0] and rgb[1] > rgb[2]:
-			detected_color = "GREEN"
-		elif rgb[0] > rgb[1] and rgb[0] > rgb[2]:
-			detected_color = "RED"
-		elif rgb[2] > rgb[0] and rgb[2] > rgb[1]:
-			detected_color = "BLUE"
+		for colorName in self.ref:
+			if suma >= self.ref[colorName]["min"] and suma <= self.ref[colorName]["max"]:
+				return colorName
 
 		if self.debug:
 			print(f"DEBUG (TCS3200.color): {(detected_color, rgb)}")
