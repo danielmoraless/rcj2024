@@ -16,7 +16,7 @@ controlador.start(0)
 reference_colors_data = {}
 
 # solo para raspberry pi os
-with open(os.path.join(os.getenv("HOME"), "florence_data", "calibrate_data.json"), "r") as ref:
+with open(os.path.join(os.getenv("HOME"), "florence_data", "calibrate.json"), "r") as ref:
 	reference_colors_data = json.loads(ref.read())
 
 sensor_colores = ColorSensor.TCS3200(reference_colors_data, conf.colorSensor1, 10, 0.1, debug=True)
