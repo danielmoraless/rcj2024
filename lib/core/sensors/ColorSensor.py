@@ -67,7 +67,7 @@ class TCS3200:
 			elif suma <= self.ref["BLACK"]["min"]:
 				return "BLACK"
 		except KeyError as e:
-			print(f"WHITE o BLACK no está en los datos de referencia!\n\t{e}")
+			print(f"{e} no está en los datos de referencia!")
 
 		# para otros valores de referencia
 		for colorName in self.ref:
