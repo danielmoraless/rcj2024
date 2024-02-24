@@ -56,9 +56,9 @@ class TCS3200:
 		rgb = self.get_rgb()
 		suma = sum(rgb)
 
-		for colorName in self.ref:
-			if self.debug:
-				print(f"DEBUG (TCS3200.color): {(colorName, suma, rgb)}")
+		if self.debug:
+			print(f"DEBUG (TCS3200.color): {(suma, rgb)}")
 
+		for colorName in self.ref:
 			if suma >= self.ref[colorName]["min"] and suma <= self.ref[colorName]["max"]:
 				return colorName
