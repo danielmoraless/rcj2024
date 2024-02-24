@@ -8,13 +8,13 @@ class TCS3200:
 	sencilla.
 
 		Parámetros:
-			gpio (RPi.GPIO): GPIO de Raspberrypi 4.
+			calibracion (dict): Valores de cada color.
 			pins (dict): Un diccionario con los nombres y número de cada pin.
 			ncycles (int): Número de ciclos para calcular la salida del sensor.
 			delay (float): Tiempo de espera para equilibrar el sensor entre
 						   cada lectura.
 	"""
-	def __init__(self, pins: dict, ncycles: int, delay: float, debug: bool = False):
+	def __init__(self, calibracion: dict, pins: dict, ncycles: int, delay: float, debug: bool = False):
 		super(TCS3200, self).__init__()
 		self.pins = pins
 		self.ncycles = ncycles
