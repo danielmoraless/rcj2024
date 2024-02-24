@@ -1,4 +1,5 @@
 import time
+import RPi.GPIO as gpio
 
 class TCS3200:
 	"""
@@ -13,9 +14,8 @@ class TCS3200:
 			delay (float): Tiempo de espera para equilibrar el sensor entre
 						   cada lectura.
 	"""
-	def __init__(self, gpio, pins: dict, ncycles: int, delay: float, debug: bool = False):
+	def __init__(self, pins: dict, ncycles: int, delay: float, debug: bool = False):
 		super(TCS3200, self).__init__()
-		self.gpio = gpio
 		self.pins = pins
 		self.ncycles = ncycles
 		self.delay = delay
@@ -33,11 +33,11 @@ class TCS3200:
 				La lectura en Hz con la configuración asignada. (float)
 		"""
 		time.sleep(self.delay)
-		self.gpio.output(self.pins["S2"], color[0])
-		self.gpio.output(self.pins["S3"], color[1])
+		gpio.output(self.pins["S2"], color[0])
+		gpio.output(self.pins["S3"], color[1])
 		timerStart = time.time()
 		for _ in range(self.ncycles):
-			self.gpio.wait_for_edge(self.pins["OUT"], self.gpio.FALLING)
+			gpio.wait_for_edge(self.pins["OUT"], gpio.FALLING)
 		return (self.ncycles/(time.time()-timerStart))
 
 	def get_rgb(self) -> tuple:
