@@ -21,8 +21,6 @@ with open(os.path.join(os.getenv("HOME"), "rdata", "calibrate_data.json"), "r") 
 
 sensor_colores = ColorSensor.TCS3200(reference_colors_data, conf.colorSensor1, 10, 0.1, debug=True)
 
-stopml = False
-
 def loop():
 	color = sensor_colores.color()
 	match color:
@@ -36,11 +34,10 @@ def loop():
 			controlador.rotar_derecha(95)
 		case _:
 			print(f"color {color} no reconocido")
-			stopml = True
 
 if __name__ == "__main__":
 	try:
-		while not stopml:
+		while True:
 			loop()
 	except KeyboardInterrupt:
 		exit(0)
