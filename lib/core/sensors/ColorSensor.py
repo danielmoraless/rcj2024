@@ -58,6 +58,9 @@ class TCS3200:
 		blue = rgb[2]
 		promedio = sum(rgb)/3
 
+		if self.debug:
+			print(f"DEBUG (TCS3200.color): {promedio} -> {rgb}")
+
 		if promedio >= 1300:
 			return "WHITE"
 		elif promedio <= 240:
