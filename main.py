@@ -13,7 +13,7 @@ GeneralUtils.setup_all(conf.pines)
 controlador = Motors.L298N(conf.l298n_p, 12500)
 controlador.start(0)
 
-sensor_colores = ColorSensor.TCS3200(conf.colorSensor1, 10, 0.1, debug=True)
+sensor_colores = ColorSensor.TCS3200(conf.colorSensor1, 1, 0.1, debug=True)
 
 def loop():
 	color = sensor_colores.color()
