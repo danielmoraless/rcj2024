@@ -52,14 +52,16 @@ class TCS3200:
 		return rgb
 
 	def color(self):
+		ts = time.time()
 		rgb = self.get_rgb()
+		timing = time.time()-ts
 		red = rgb[0]
 		green = rgb[1]
 		blue = rgb[2]
 		promedio = sum(rgb)/3
 
 		if self.debug:
-			print(f"DEBUG (TCS3200.color): {promedio} -> {rgb}")
+			print(f"--- DEBUG ---\nValues: {rgb}\nProm: {promedio}\nTiming: {timing}\n---")
 
 		if promedio >= 1300:
 			return "WHITE"
