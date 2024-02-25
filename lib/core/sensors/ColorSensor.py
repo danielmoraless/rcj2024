@@ -14,7 +14,7 @@ class TCS3200:
 			delay (float): Tiempo de espera para equilibrar el sensor entre
 						   cada lectura.
 	"""
-	def __init__(self, pins: dict, ncycles: int, delay: float, debug: bool = False):
+	def __init__(self, pins: dict, ncycles: int=300, delay: float=0, debug: bool = False):
 		super(TCS3200, self).__init__()
 		self.pins = pins
 		self.ncycles = ncycles
