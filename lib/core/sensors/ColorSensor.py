@@ -54,22 +54,19 @@ class TCS3200:
 
 	def color(self):
 		rgb = self.get_rgb()
-		suma = sum(rgb)
+		red = rgb[0]
+		green = rgb[1]
+		blue = rgb[2]
+		promedio = sum(rgb)/3
 
-		# para debug
-		if self.debug:
-			print(f"DEBUG (TCS3200.color): {(suma, rgb)}")
-
-		# para valores prioritarios (WHITE, BLACK)
-		try:
-			if suma >= self.ref["WHITE"]["min"] or suma >= 3000:
-				return "WHITE"
-			elif suma <= self.ref["BLACK"]["min"]:
-				return "BLACK"
-		except KeyError as e:
-			print(f"{e} no está en los datos de referencia!")
-
-		# para otros valores de referencia
-		for colorName in self.ref:
-			if suma >= self.ref[colorName]["min"] and suma <= self.ref[colorName]["max"]:
-				return colorName
+		if promedio >= 1300:
+			return "WHITE"
+		elif promedio <= 240:
+			return "BLACK"
+		else:
+			if green > red and green > blue: # green first
+				return "GREEN"
+			elif red > green and red > blue:
+				return "RED"
+			else:
+				return "BLUE"
