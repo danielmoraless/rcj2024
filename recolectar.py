@@ -9,7 +9,7 @@ import conf
 GPIO.setmode(GPIO.BCM)
 setup_all(conf.pines)
 
-sensor = TCS3200(GPIO, conf.colorSensor1, 10, 0.1)
+sensor = TCS3200(conf.colorSensor1)
 
 ciclos = int(input("[?] Número de ciclos de calibración: "))
 nlecturas = int(input("[?] Número de lecturas en cada ciclo: "))
