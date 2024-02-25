@@ -13,14 +13,6 @@ GeneralUtils.setup_all(conf.pines)
 controlador = Motors.L298N(conf.l298n_p, 12500)
 controlador.start(0)
 
-reference_colors_data = {}
-
-# solo para raspberry pi os
-with open(os.path.join(os.getenv("HOME"), "florence_data", "calibrate.json"), "r") as ref:
-	reference_colors_data = json.loads(ref.read())
-
-sensor_colores = ColorSensor.TCS3200(reference_colors_data, conf.colorSensor1, 10, 0.1, debug=True)
-
 def loop():
 	color = sensor_colores.color()
 	match color:
