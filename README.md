@@ -57,7 +57,7 @@ Se supone que aquí los módulos de la capa media se mezclan lógicamente.
 
 ## Tabla de conexiones
 
-### TCS3200 N.° 1
+### TCS3200 N.° 1 (L)
 
 | TCS3200 | RPi 4 (BOARD) |
 |:-------:|:-------------:|
@@ -70,6 +70,14 @@ Se supone que aquí los módulos de la capa media se mezclan lógicamente.
 |    S3   |  13 (GPIO 27) |
 |   OUT   |  15 (GPIO 22) |
 
+### TCS3200 N.° 2 (R)
+
+| TCS3200 | RPi (BOARD) |
+|:-------:|:-----------:|
+| OUT | 36 (GPIO 16) |
+| S2 | 38 (GPIO 20) |
+| S3 | 40 (GPIO 21) |
+
 ### Controlador L298N
 | L298N | RPi 4 (BOARD) |
 |:-----:|:-------------:|
@@ -79,3 +87,7 @@ Se supone que aquí los módulos de la capa media se mezclan lógicamente.
 | ENB | 32 (GPIO 12, PWM0) |
 | IN3 | 12 (GPIO 18) |
 | IN4 | 16 (GPIO 23) |
+
+### IR SENSORS
+- L: 37 (GPIO 26)
+- R: 35 (GPIO 19)
