@@ -2,7 +2,6 @@ import RPi.GPIO as gpio
 
 class L298N:
   def __init__(self, pines, frecuencia):
-    super(L298N, self).__init__()
     self.pines = pines
     self.frecuencia = frecuencia
     self.pwma = gpio.PWM(self.pines["ENA"], self.frecuencia)

@@ -15,7 +15,6 @@ class TCS3200:
 						   cada lectura.
 	"""
 	def __init__(self, pins: dict, ncycles: int=300, delay: float=0, debug: bool = False):
-		super(TCS3200, self).__init__()
 		self.pins = pins
 		self.ncycles = ncycles
 		self.delay = delay
