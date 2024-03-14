@@ -1,12 +1,9 @@
 import RPi.GPIO as gpio
 
 class IR:
-  def __init__(self, pins: tuple) -> None:
-    self.pins = pins
+  def __init__(self, pinr: int, pinl: int) -> None:
+    self.pinr = pinr
+    self.pinl = pinl
   
-  def read(self) -> list:
-    values = []
-    for pin in self.pins:
-      values.append(gpio.input(pin))
-    
-    return values
+  def read(self) -> tuple:
+    return (gpio.input(self.pinr), gpio.input(self.pinl))
