@@ -51,25 +51,21 @@ class TCS3200:
 		return rgb
 
 	def color(self):
-		ts = time.time()
 		rgb = self.get_rgb()
-		timing = time.time()-ts
-		red = rgb[0]
-		green = rgb[1]
-		blue = rgb[2]
+		(red, green, blue) = rgb
 		promedio = sum(rgb)/3
 
 		if self.debug:
-			print(f"--- DEBUG ---\nValues: {rgb}\nProm: {promedio}\nTiming: {timing}\n---")
+			print(f"--- DEBUG ---\nValues: {rgb}\nProm: {promedio}\n---")
 
+		# se referencia al "negro" y al azul como un solo color (BLACK),
+		# porque el sensor es anormal e insiste en que la cinta eléctrica
+		# es azul
 		if promedio >= 1300:
 			return "WHITE"
-		elif promedio <= 240:
+		elif promedio <= 240 or (blue > red and blue > green):
 			return "BLACK"
-		else:
-			if green > red and green > blue: # green first
-				return "GREEN"
-			elif red > green and red > blue:
-				return "RED"
-			else:
-				return "BLUE"
+		elif green > red and green > blue:
+			return "GREEN"
+		elif red > green and red > blue:
+			return "RED"
