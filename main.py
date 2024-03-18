@@ -1,39 +1,32 @@
 import RPi.GPIO as GPIO
 import lib.core.utils.GeneralUtils as GeneralUtils
-import lib.core.actuators.Motors as Motors
-import lib.core.sensors.ColorSensor as ColorSensor
 import conf
-import json
-import os
 
-GPIO.setmode(GPIO.BCM)
+trigger = False
 
-GeneralUtils.setup_all(conf.pines)
+def trigger_callback(channel):
+	if trigger:
+		trigger = False
+	else:
+		trigger = True
 
-controlador = Motors.L298N(conf.l298n_p, 12500)
-controlador.start(0)
+def setup():
+	GPIO.setmode(GPIO.BCM)
+	GeneralUtils.setup_all(conf.pines)
+	GPIO.setup(conf.BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-sensor_colores = ColorSensor.TCS3200(conf.colorSensor1, debug=True)
+	GPIO.add_event_detect(conf.BUTTON, GPIO.RISING, callback=trigger_callback)
 
 def loop():
-	color = sensor_colores.color()
-	match color:
-		case "WHITE":
-			controlador.forward(95)
-		case "BLACK":
-			controlador.rotar_izquierda(95)
-		case "RED":
-			controlador.backward(95)
-		case "BLUE":
-			controlador.rotar_derecha(95)
-		case _:
-			print(f"color {color} no reconocido")
+	# codigo principal
+	pass
 
 if __name__ == "__main__":
 	try:
+		setup()
 		while True:
-			loop()
+			if trigger: loop()
 	except KeyboardInterrupt:
-		exit(0)
+		pass
 	finally:
 		GPIO.cleanup()
