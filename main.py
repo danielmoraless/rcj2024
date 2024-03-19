@@ -4,18 +4,17 @@ import conf
 
 trigger = False
 
-def trigger_callback(channel):
-	if trigger:
-		trigger = False
-	else:
-		trigger = True
+def update_trigger():
+	if GPIO.input(conf.BUTTON):
+		if trigger:
+			trigger = False
+		else:
+			trigger = True
 
 def setup():
 	GPIO.setmode(GPIO.BCM)
 	GeneralUtils.setup_all(conf.pines)
 	GPIO.setup(conf.BUTTON, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-	GPIO.add_event_detect(conf.BUTTON, GPIO.RISING, callback=trigger_callback)
 
 def loop():
 	# codigo principal
@@ -25,6 +24,7 @@ if __name__ == "__main__":
 	try:
 		setup()
 		while True:
+			update_trigger()
 			if trigger: loop()
 	except KeyboardInterrupt:
 		pass
