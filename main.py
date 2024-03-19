@@ -5,6 +5,7 @@ import conf
 trigger = False
 
 def update_trigger():
+	global trigger
 	if GPIO.input(conf.BUTTON):
 		if trigger:
 			trigger = False
