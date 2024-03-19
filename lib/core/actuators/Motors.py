@@ -11,7 +11,7 @@ class L298N:
     self.pwma.start(dc_start)
     self.pwmb.start(dc_start)
   
-  def stop(self):
+  def stop_pwm(self):
     self.pwma.stop()
     self.pwmb.stop()
   
