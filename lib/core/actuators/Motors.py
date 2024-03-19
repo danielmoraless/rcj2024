@@ -40,3 +40,7 @@ class L298N:
   def rotar_derecha(self, vel):
     self.cambiar_estado_izquierdo((0, 1), vel)
     self.cambiar_estado_derecho((1, 0), vel)
+  
+  def stop(self):
+    self.pwma.ChangeDutyCycle(0)
+    self.pwmb.ChangeDutyCycle(0)
