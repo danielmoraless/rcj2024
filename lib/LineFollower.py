@@ -52,3 +52,14 @@ class Follower:
       self.l298n.rotar_derecha(100)
     
     #TODO: crear métodos para giros graduales y añadirlos aquí
+  
+  def react_by_ir(self):
+    direction = self.calculate_direction_by_ir()
+    
+    #TODO: agregar condicional para el caso de ambos en negro
+    if direction == "F":
+      self.l298n.forward(100)
+    elif direction == "L":
+      self.l298n.rotar_izquierda(100)
+    elif direction == "R":
+      self.l298n.rotar_derecha(100)
